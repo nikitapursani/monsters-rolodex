@@ -30,7 +30,8 @@ class App extends Component {
     super();
 
     this.state = {
-      name: 'Nikita1'
+      name: {firstName: 'Nikita', lastName: 'Pursani'},
+      company: 'ZTM'
     };
   }
 
@@ -39,8 +40,16 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>Hi {this.state.name}</p>
-          <button> Change Name </button>
+          
+          <p>Hi {this.state.name.firstName} {this.state.name.lastName}, {this.state.company}</p>
+
+          <button onClick={() => {
+            this.setState({name: {firstName: 'Andrei', lastName: "Neaigoi"}});
+            console.log(this.state);
+          }}> 
+            Change Name 
+          </button>
+
         </header>
       </div>
     );
