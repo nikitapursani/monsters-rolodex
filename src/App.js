@@ -7,25 +7,26 @@ class App extends Component {
     super();
 
     this.state = {
-        monsters: []
+        monsters: [],
+        searchField: ''
     };
-    console.log('constructor');
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
       .then((users) => this.setState(() => {
         return {monsters: users}
-      },
-      () => {
-        console.log(this.state)
       }))
   }
 
   render() {
     console.log('render');
+
+    // Filter the monsters to get the only
+    // the ones where thier name includes the input text
+    let filteredMonsters = this.state.monsters.filter((monster) => monster.name.toLowerCase().includes(this.state.searchField));
+
     return (
       <div className="App">
 
@@ -34,33 +35,19 @@ class App extends Component {
         type='search' 
         placeholder='search monsters' 
         onChange={(event) => {
-          console.log(event);
 
           // Get the input text
-          const inputText = event.target.value;
+          const searchField = event.target.value.toLowerCase();
 
-          // Get the monsters from the API each time a 
-          // change occurs in the value
-          fetch('https://jsonplaceholder.typicode.com/users')
-            .then((response) => response.json())
-            .then((monsters) => {
+          // setState to the new searchField from the input search box
+          this.setState(() => {
+            return {searchField: searchField};
+          });
 
-              // Filter the monsters to get the only
-              // the ones that start with the input text
-              monsters = monsters.filter((monster) => monster.name.startsWith(inputText))
-
-              // setState to the new filtered monsters array
-              this.setState(() => {
-                return {monsters: monsters};
-              },
-              () => {
-                console.log(this.state);
-              })
-            })
         }}/>
 
         {
-          this.state.monsters.map((monster) => {
+          filteredMonsters.map((monster) => {
             return (
               <div key={monster.id}>
                 <h1>{monster.name}</h1>
