@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import logo from './logo.svg';
+import CardList from './components/card-list/card-list.component';
+import SearchBox from './components/search-box/search-box.component';
 import './App.css';
 
 class App extends Component {
@@ -33,7 +34,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('render');
 
     // Use destructuring to get the fields out of
     // this.state and this, to make our variables
@@ -54,21 +54,15 @@ class App extends Component {
     return (
       <div className="App">
 
-        <input 
-        className='search-box' 
-        type='search' 
-        placeholder='search monsters' 
-        onChange={onSearchChange}/>
+        <h1 className='app-title'>Monsters Rolodex</h1>
 
-        {
-          filteredMonsters.map((monster) => {
-            return (
-              <div key={monster.id}>
-                <h1>{monster.name}</h1>
-              </div>
-            );
-          })
-        }
+        <SearchBox
+          className='monsters-search-box'
+          onChangeHandler = {onSearchChange} 
+          placeholder = 'search monsters'
+        /> 
+
+        <CardList monsters={filteredMonsters} />
 
       </div>
     );
